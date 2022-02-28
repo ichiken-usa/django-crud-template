@@ -1,0 +1,9 @@
+.btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+body {
+    padding-top: 60px;
+}

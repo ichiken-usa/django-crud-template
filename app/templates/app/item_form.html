@@ -1,0 +1,24 @@
+{% extends "./_base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{{ form.certifications.errors }}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="m-5 text-center">Register / Update</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form method="post" id="myform">
+                {% crispy form %}
+            </form>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-12 mb-5 mt-3">
+                <a class="btn btn-primary save w-100" href="#">Submit</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

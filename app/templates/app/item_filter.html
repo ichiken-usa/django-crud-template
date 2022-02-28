@@ -1,0 +1,129 @@
+{% extends "./_base.html" %}
+{% block content %}
+    {% load crispy_forms_tags %}
+    <div class="container">
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Filter</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="filter" method="get">
+                        <div class="modal-body">
+                            {{ filter.form|crispy }}
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <a class="btn btn-outline-secondary" data-dismiss="modal">Close</a>
+                        <button type="submit" class="btn btn-outline-secondary" form="filter">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="m-5 text-center">CRUD Sample List</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="float-right">
+                    <a class="btn btn-dark filtered" style="visibility:hidden" href="/?page=1">Reset</a>
+                    <a class="btn btn-secondary" data-toggle="modal" data-target="#myModal" href="#">Filter</a>
+                    <a class="btn btn-info" href="{% url 'filestream' %}">CSV</a>
+                    <a class="btn btn-primary" href="{% url 'create' %}">New</a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-10 mx-auto">
+                {% include "./_pagination.html" %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <ul class="list-group">
+                    {% for item in item_list %}
+                    <li class="list-group-item">
+                        {# model.pyのItemクラスの各項目はget_context_dataでitem_listに格納される。それをここで取り出す。 #}
+                        <div class="row">
+                            <div class="col-5 col-sm-3">
+                                <p>Subject</p>
+                            </div>
+                            <div class="col-7 col-sm-9">
+                                <p>{{ item.subject|default_if_none:"Not entered" }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 col-sm-3">
+                                <p>Area</p>
+                            </div>
+                            <div class="col-7 col-sm-9">
+                                <p>{{ item.area|default_if_none:"Not entered" }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 col-sm-3">
+                                <p>Category</p>
+                            </div>
+                            <div class="col-7 col-sm-9">
+                                <p>{{ item.category|default_if_none:"Not entered" }}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-5 col-sm-3">
+                                <p>Created by</p>
+                            </div>
+                            <div class="col-7 col-sm-9">
+                                <p>{{ item.created_by.get_full_name }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 col-sm-3">
+                                <p>Created at</p>
+                            </div>
+                            <div class="col-7 col-sm-9">
+                                <p>{{ item.created_at|date:"Y/m/d G:i:s" }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="float-right">
+                                    <a class="btn btn-outline-info" style="width:70px" href="{% url 'detail' item.pk %}">Detail</a>
+                                    <a class="btn btn-outline-primary " style="width:70px" href="{% url 'update' item.pk %}">Edit</a>
+                                    <a class="btn btn-outline-danger " style="width:70px" href="{% url 'delete' item.pk %}">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">
+                        No data
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-10 mx-auto">
+                {% include "./_pagination.html" %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="float-right mt-1 mb-5">
+                    <a class="btn btn-dark filtered" style="visibility:hidden" href="/?page=1">Reset</a>
+                    <a class="btn btn-secondary" data-toggle="modal" data-target="#myModal" href="#">Filter</a>
+                    <a class="btn btn-info" href="{% url 'filestream' %}">CSV</a>
+                    <a class="btn btn-primary" href="{% url 'create' %}">New</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
